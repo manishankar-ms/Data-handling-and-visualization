@@ -1,0 +1,42 @@
+# Load necessary libraries
+library(ggplot2)
+library(forecast)
+library(tseries)
+
+# Create the dataset
+date <- as.Date(c("2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01"))
+sales <- c(100, 120, 150, 130, 140)
+
+# Create a data frame
+data <- data.frame(Date = date, Sales = sales)
+
+# 1. Line plot of Sales over time
+ggplot(data, aes(x=Date, y=Sales)) +
+  geom_line() +
+  geom_point() +
+  labs(title="Sales Over Time", x="Date", y="Sales")
+
+# 2. Bar plot showing monthly average Sales
+monthly_avg_sales <- aggregate(Sales ~ format(Date, "%Y-%m"), data, mean)
+colnames(monthly_avg_sales) <- c("Month", "Average_Sales")
+
+ggplot(monthly_avg_sales, aes(x=Month, y=Average_Sales)) +
+  geom_bar(stat="identity", fill="blue") +
+  labs(title="Monthly Average Sales", x="Month", y="Average Sales")
+
+# Convert to time series object
+sales_ts <- ts(sales, start=c(2023,1), frequency=12)
+
+# 3. Seasonal decomposition of Sales
+decomp <- decompose(sales_ts)
+plot(decomp)
+
+# 4. Lag plot to analyze autocorrelation in Sales
+gglagplot(sales_ts) +
+  labs(title="Lag Plot of Sales")
+
+# 5. Time series plot with a smoothed line of Sales
+ggplot(data, aes(x=Date, y=Sales)) +
+  geom_line() +
+  geom_smooth(method="loess", se=FALSE) +
+  labs(title="Sales Over Time with Smoothed Line", x="Date", y="Sales")

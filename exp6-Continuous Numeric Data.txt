@@ -1,0 +1,41 @@
+# Load necessary libraries
+library(ggplot2)
+library(gridExtra)
+
+# Create the data frame
+data <- data.frame(
+  ID = c(1, 2, 3, 4, 5),
+  Age = c(25, 30, 28, 35, 40),
+  Height = c(175, 180, 170, 165, 185),
+  Weight = c(70, 80, 65, 75, 90)
+)
+
+# Scatter plot between Age and Weight
+scatter_plot <- ggplot(data, aes(x = Age, y = Weight)) +
+  geom_point() +
+  labs(title = "Scatter Plot: Age vs Weight", x = "Age", y = "Weight")
+
+# Histogram of Height
+histogram_plot <- ggplot(data, aes(x = Height)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Histogram of Height", x = "Height", y = "Frequency")
+
+# Line chart showing changes in Weight over IDs
+line_chart <- ggplot(data, aes(x = ID, y = Weight)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Line Chart: Changes in Weight over IDs", x = "ID", y = "Weight")
+
+# Box plot of Age
+box_plot <- ggplot(data, aes(y = Age)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of Age", y = "Age")
+
+# Density plot of Height
+density_plot <- ggplot(data, aes(x = Height)) +
+  geom_density(fill = "blue", alpha = 0.7) +
+  labs(title = "Density Plot of Height", x = "Height")
+
+# Arrange the plots in a grid
+grid.arrange(scatter_plot, histogram_plot, line_chart, box_plot, density_plot, ncol = 2)
+

@@ -1,0 +1,47 @@
+# Load required packages
+library(vcd)
+
+# Sample data
+df <- data.frame(
+  ID = 1:5,
+  Gender = c("Male", "Female", "Male", "Female", "Male"),
+  Education = c("Graduate", "Undergrad", "High School", "Graduate", "Undergrad"),
+  Occupation = c("Engineer", "Teacher", "Doctor", "Lawyer", "Artist")
+)
+
+# Counting genders
+gender_counts <- table(df$Gender)
+
+# Counting education levels
+education_counts <- table(df$Education)
+
+# Counting occupations by gender
+occupation_counts <- table(df$Gender, df$Occupation)
+
+# Counting gender across education levels
+gender_education_counts <- table(df$Education, df$Gender)
+
+# Plotting
+par(mfrow = c(2, 3))  # Arrange plots in a 2x3 grid
+
+# Bar plot of Gender counts
+barplot(gender_counts, main = "Count of Each Gender", xlab = "Gender", ylab = "Count", col = c("blue", "orange"))
+
+# Pie chart of Education levels distribution
+pie(education_counts, labels = paste(names(education_counts), "\n", education_counts, sep = ""), main = "Distribution of Education Levels")
+
+# Stacked bar plot of Occupation counts by Gender
+barplot(occupation_counts, beside = TRUE, legend = TRUE, col = c("blue", "orange"), main = "Count of Each Occupation by Gender", xlab = "Gender", ylab = "Count")
+legend("topright", legend = rownames(occupation_counts), fill = c("blue", "orange"))
+
+# Mosaic plot of association between Education and Occupation
+mosaic(df, shade = TRUE)
+
+# Grouped bar plot of Gender counts across Education levels
+barplot(gender_education_counts, beside = TRUE, legend = TRUE, col = c("blue", "orange"), main = "Count of Gender across Education Levels", xlab = "Education Level", ylab = "Count")
+legend("topright", legend = colnames(gender_education_counts), fill = c("blue", "orange"))
+
+# Reset plotting parameters
+par(mfrow = c(1, 1))  # Reset to default plot layout
+
+# Display all plots
